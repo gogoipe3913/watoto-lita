@@ -1,0 +1,210 @@
+@use "../../../styles/mixin" as m;
+
+.TasteServices {
+  position: relative;
+  padding: 30vh 300px 50vh;
+  margin-top: -1px;
+  z-index: 10;
+  color: var(--color-dark);
+  background-color: var(--color-taste-background);
+
+  @include m.respondToMd {
+    padding: 200px 28px;
+  }
+
+  @include m.respondToOverXlg {
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+    width: 1100px;
+  }
+
+  .TasteServices__heading {
+    position: sticky;
+    top: 200px;
+    z-index: 1;
+    width: fit-content;
+
+    @include m.respondToMd {
+      top: 60px;
+      margin-left: 16px;
+    }
+  }
+
+  .TasteServices__contents {
+    margin: 50vh 0;
+    position: relative;
+  }
+
+  .TasteServices__descriptionBlock {
+    margin-left: 100px;
+    display: flex;
+    gap: 80px;
+
+    @include m.respondToMd {
+      margin-left: initial;
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+
+  .TasteServices__text {
+    padding-top: 300px;
+    width: 16vw;
+    min-width: 280px;
+
+    @include m.respondToMd {
+      margin-left: auto;
+      margin-right: 52px;
+      padding-top: initial;
+      width: 56vw;
+      min-width: 210px;
+    }
+  }
+
+  .TasteServices__subHeading {
+    margin-left: auto;
+    writing-mode: vertical-rl;
+    font-size: 18px;
+    letter-spacing: 0.3em;
+
+    p + p {
+      margin-right: 16px;
+    }
+
+    @include m.respondToMd {
+      height: 182px;
+      font-size: 14px;
+    }
+  }
+
+  .TasteServices__description {
+    margin-top: 56px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    white-space: pre-wrap;
+    border-top: 1px solid var(--color-dark);
+
+    p {
+      line-height: 2;
+    }
+
+    @include m.respondToMd {
+      margin-top: 40px;
+      padding-top: 32px;
+      gap: 20px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  .TasteServices__img {
+    @include m.respondToMd {
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    &--1 {
+      @include m.respondToMd {
+        margin-left: 60px;
+        margin-bottom: 100px;
+        width: 72%;
+      }
+    }
+
+    &--2 {
+      margin-top: 0px;
+      margin-left: -80px;
+      margin-right: 12px;
+
+      @include m.respondToMd {
+        margin-top: 60px;
+        margin-left: -40px;
+        width: 72%;
+      }
+    }
+
+    &--3 {
+      margin-top: 100px;
+      margin-left: auto;
+      margin-bottom: 380px;
+      @include m.respondToMd {
+        width: 80%;
+      }
+    }
+
+    &--4 {
+      @include m.respondToMd {
+        margin-left: auto;
+        margin-right: -28px;
+        width: 80%;
+      }
+    }
+
+    &--5 {
+      @include m.respondToMd {
+        margin-left: -20px;
+        margin-bottom: 200px;
+        width: 90%;
+      }
+    }
+
+    &--6 {
+      margin-top: -40px;
+      margin-left: -40px;
+
+      @include m.respondToMd {
+        margin-top: 120px;
+        margin-left: -28px;
+      }
+    }
+
+    &--7 {
+      margin-top: 160px;
+      margin-left: auto;
+      margin-right: 60px;
+      margin-bottom: 380px;
+    }
+
+    &--8 {
+      @include m.respondToMd {
+        margin: 0 auto 80px;
+        width: 90%;
+      }
+    }
+
+    &--9 {
+      margin-top: 160px;
+
+      @include m.respondToMd {
+        width: 70%;
+        margin-left: auto;
+        margin-right: 24px;
+      }
+    }
+
+    &--10 {
+      margin-top: 160px;
+      margin-left: auto;
+      margin-right: 60px;
+      margin-bottom: 280px;
+
+      @include m.respondToMd {
+        margin-left: -12px;
+        margin-right: initial;
+        margin-bottom: 180px;
+        width: 76%;
+      }
+    }
+  }
+
+  .js-parallax {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    contain: paint; // レイヤー分離を助ける
+  }
+}

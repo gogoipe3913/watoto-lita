@@ -1,0 +1,168 @@
+/* ===== Brand Variables ===== */
+:root {
+  /* 基本色 */
+  --color-black: #202020;
+  --color-white: #fff;
+  --color-dark: #171729;
+  --color-gold: #b6a66c;
+  --color-cream: #f0efea;
+  --color-green: #215256;
+  --color-blue: #263d5f;
+  --color-red: #7b342e;
+  --color-brown: #795542;
+  --color-beige: #e4dfd9;
+  --color-base-background: var(--color-white);
+  --color-taste-background: var(--color-beige);
+
+  /* Taste colors */
+  --color-text-black: var(--color-black);
+  --color-text-gray: #616161;
+  --color-text-gray-2: #d8d8d8;
+  --color-text-gold: var(--color-gold);
+  --color-border-gray: rgba(0, 0, 0, 0.07);
+
+  /* Stay colors */
+  --color-stay-text-black: var(--color-black);
+  --color-stay-text-white: var(--color-white);
+  --color-stay-background: var(--color-cream);
+  --color-stay-placeholder: #a6a6a6;
+
+  /* Fonts */
+  --font-family-title: ltc-nicholas-cochin-pro, shippori-mincho-b1, sans-serif;
+  --font-family-gothic: mr-eaves-sans, shippori-mincho-b1, sans-serif;
+  --font-family-serif: cochin, shippori-mincho-b1, serif;
+  --font-family-text-jp: shippori-mincho-b1, sans-serif;
+  --font-family-text-en: shippori-mincho-b1, sans-serif;
+
+  /* Letter spacing */
+  --letter-space-text-jp: 0.02em;
+  --letter-space-text-en: 0.01em;
+
+  /* Z-index levels */
+  --z-index-elevation-1: 100000;
+  --z-index-elevation-2: 300000;
+  --z-index-elevation-3: 600000;
+  --z-index-elevation-4: 900000;
+  --z-index-elevation-5: 2147483647;
+
+  /* Light/Dark fallback */
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    /* 必要ならここで色変数を上書き */
+    /* --color-base-background: #111; */
+  }
+}
+
+/* ===== Reset ===== */
+html,
+body {
+  max-width: 100vw;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+/* ===== Body ===== */
+html {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-family-text-jp);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Custom Cursor ===== */
+@media (pointer: fine) {
+  /* まず全部消す */
+  html[data-custom-cursor="on"],
+  html[data-custom-cursor="on"] :where(*, *::before, *::after) {
+    cursor: none !important;
+  }
+
+  /* 入力欄だけ I ビームを戻す */
+  html[data-custom-cursor="on"] :where(input, textarea) {
+    cursor: text !important;
+  }
+
+  /* slick の cursor 指定を完全に潰す */
+  html[data-custom-cursor="on"]
+    :where(
+      .slick-slider,
+      .slick-list,
+      .slick-track,
+      .slick-slide,
+      .slick-slide *,
+      .slick-arrow,
+      .slick-dots,
+      .slick-dots *
+    ) {
+    cursor: none !important;
+  }
+
+  /* ネイティブカーソルを戻したい場所 */
+  html[data-custom-cursor="on"] [data-allow-native-cursor],
+  html[data-custom-cursor="on"]
+    [data-allow-native-cursor]
+    :where(*, *::before, *::after) {
+    cursor: auto !important;
+  }
+}
+
+/* タッチ環境は通常のカーソル */
+@media (pointer: coarse) {
+  html[data-custom-cursor="on"],
+  html[data-custom-cursor="on"] :where(*, *::before, *::after) {
+    cursor: auto !important;
+  }
+}

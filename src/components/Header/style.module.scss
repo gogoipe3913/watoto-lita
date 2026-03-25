@@ -1,0 +1,98 @@
+@use "../../styles/mixin" as m;
+
+.Header {
+  $padding-frame-vertical: 40px;
+  $padding-frame-horizontal: 48px;
+
+  @include m.respondToSm {
+    width: 100%;
+  }
+
+  .Header__logo {
+    position: fixed;
+    top: $padding-frame-vertical;
+    left: $padding-frame-horizontal;
+    z-index: var(--z-index-elevation-2);
+    width: 40px;
+    height: 120px;
+    // アニメーション設定
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+
+    &--resized {
+      width: 28px;
+      height: 82px;
+    }
+
+    @include m.respondToSm {
+      left: 20px;
+    }
+  }
+
+  .Header__menu {
+    position: fixed;
+    display: flex;
+    gap: 40px;
+    top: $padding-frame-vertical;
+    right: $padding-frame-horizontal;
+    z-index: var(--z-index-elevation-2);
+    font-family: ltc-nicholas-cochin-pro, sans-serif;
+    font-size: 14px;
+
+    @include m.respondToSm {
+      right: 20px;
+    }
+
+    li {
+      @include m.respondToSm {
+        display: none;
+      }
+
+      &:last-child {
+        display: block;
+      }
+
+      a {
+        // アニメーション設定
+        transition-duration: 0.4s;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+          color: var(--color-text-gold);
+        }
+      }
+    }
+
+    .Header__hamburger {
+      margin-left: 12px;
+      height: 100%;
+
+      .Header__hamburgerLine {
+        display: flex;
+        width: 44px;
+        height: 1px;
+        background-color: var(--color-white);
+
+        // アニメーション設定
+        transition-duration: 0.4s;
+        transition-timing-function: ease-in-out;
+      }
+
+      .Header__hamburgerLine + .Header__hamburgerLine {
+        margin-top: 6px;
+      }
+    }
+
+    &--colored {
+      color: var(--color-black);
+
+      li > a {
+        color: inherit;
+      }
+
+      .Header__hamburger > .Header__hamburgerLine {
+        background-color: var(--color-black);
+      }
+    }
+  }
+}

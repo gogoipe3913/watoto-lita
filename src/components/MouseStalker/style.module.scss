@@ -1,0 +1,103 @@
+/* カーソル非表示は global.css の html[data-custom-cursor="on"] で実施する前提 */
+
+.MouseStalker {
+  position: fixed;
+
+  /* JS が更新する座標と最小サイズ */
+  --x: -9999px; /* 初期は画面外 */
+  --y: -9999px;
+  --size: 13px; /* 最小径 */
+  --blur-amount: 1.3px; /* hover時のブラー量 */
+
+  top: var(--y);
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  transform: translate(-50%, -50%); /* 中心合わせ */
+  transform-origin: center;
+
+  border-radius: 50%;
+  /* 半透明のベース色（blurが視認できるように必ずアルファを入れる） */
+  background: rgba(189, 188, 184, 0.6); /* var(--color-cream) 相当 */
+
+  /* 枠は常に1px（scaleを使わないので太らない） */
+  border: 1px solid transparent;
+  background-clip: padding-box;
+
+  pointer-events: none;
+  z-index: var(--z-index-elevation-5);
+  opacity: 0;
+
+  will-change: width, height, transform, opacity, backdrop-filter,
+    -webkit-backdrop-filter;
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease,
+    opacity 0.2s ease;
+
+  /* 表示切替 */
+  &[data-visible="true"] {
+    opacity: 1;
+  }
+
+  /* hover時の共通（サイズ・枠色） */
+  &[data-hover="true"] {
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgb(220, 210, 195);
+  }
+
+  /* ---- Chrome/Edge 等（標準） ---- */
+  @supports (backdrop-filter: blur(0)) {
+    backdrop-filter: blur(0);
+
+    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease,
+      backdrop-filter 0.25s ease, opacity 0.2s ease;
+
+    &[data-hover="true"] {
+      backdrop-filter: blur(var(--blur-amount));
+    }
+    &[data-force-blur="true"] {
+      backdrop-filter: blur(var(--blur-amount));
+      border-color: var(--color-gold);
+    }
+  }
+
+  /* ---- Safari ---- */
+  @supports (-webkit-backdrop-filter: blur(0)) {
+    -webkit-backdrop-filter: blur(0);
+
+    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease,
+      -webkit-backdrop-filter 0.25s ease, opacity 0.2s ease;
+
+    &[data-hover="true"] {
+      -webkit-backdrop-filter: blur(var(--blur-amount));
+    }
+    &[data-force-blur="true"] {
+      -webkit-backdrop-filter: blur(var(--blur-amount));
+      border-color: var(--color-gold);
+    }
+  }
+
+  /* ---- Fallback（双方非対応: Firefox 等） ---- */
+  @supports not (backdrop-filter: blur(0)) {
+    @supports not (-webkit-backdrop-filter: blur(0)) {
+      /* フェイクの“ガラス感” */
+      background-image: radial-gradient(
+        40% 40% at 50% 50%,
+        rgba(255, 255, 255, 0.45),
+        rgba(255, 255, 255, 0) 70%
+      );
+
+      &[data-hover="true"] {
+        background-image: radial-gradient(
+          45% 45% at 50% 50%,
+          rgba(255, 255, 255, 0.55),
+          rgba(255, 255, 255, 0) 75%
+        );
+      }
+
+      &[data-force-blur="true"] {
+        border-color: var(--color-gold);
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+/* ラッパ：縦スクロール量 = 100dvh + “必要スクロール量(scrollLen)” + リビール距離 */
+.TasteInsertImages {
+  --trackLenX: 0px; /* JS sets: track.scrollWidth - innerWidth（実移動距離） */
+  --scrollLen: 0px; /* JS sets: trackLenX * WEIGHT（重さ適用） */
+  --revealLen: 0px; /* JS sets: ~0.8 * innerWidth */
+
+  height: calc(100vh + var(--scrollLen) + var(--revealLen));
+  height: calc(100dvh + var(--scrollLen) + var(--revealLen));
+  overflow: visible; /* sticky殺し回避 */
+}
+
+/* 固定領域（全画面） */
+.TasteInsertImages__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+
+  /* フェーズ進捗 */
+  --p: 0; /* 横流し 0→1 */
+  --q: 0; /* リビール 0→1 */
+  --vel: 0; /* スクロール速度 0..1 */
+
+  /* 入場タイミング（XとYで到着時期を分ける） */
+  --enter-range-y: 0.7; /* 早く到着（Y） */
+  --enter-range-x: 0.9; /* 遅く到着（X） */
+
+  /* 横スクロール開始の遅延（上端が着いてからにする） */
+  --x-start: 0.65;
+}
+
+/* 入場：右下 → 正位置（フェード無し） */
+.TasteInsertImages__frame {
+  width: 100%;
+  height: 100%;
+
+  /* 別々の入場進捗（0→1） */
+  --ey: clamp(0, calc(var(--p) / var(--enter-range-y)), 1); /* Y先着 */
+  --ex: clamp(0, calc(var(--p) / var(--enter-range-x)), 1); /* X後着 */
+
+  /* 右下オフセット量（自身サイズ基準） */
+  --dx: 120%;
+  --dy: 120%;
+
+  opacity: 1;
+  transform: translate(
+      calc((1 - var(--ex)) * var(--dx)),
+      calc((1 - var(--ey)) * var(--dy))
+    )
+    scale(calc(0.4 + 0.6 * var(--ey)));
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* 横トラック：入場が十分終わってから流れ始める */
+.TasteInsertImages__track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  will-change: transform;
+
+  /* mp：横移動の正規化進捗。--x-start までは 0。 */
+  --mp: clamp(0, calc((var(--p) - var(--x-start)) / (1 - var(--x-start))), 1);
+
+  /* 横移動距離 = trackLenX * mp（見た目の移動量は trackLenX を使う） */
+  transform: translateX(calc(-1 * var(--mp) * var(--trackLenX)));
+}
+
+/* スライド：縦いっぱい（高さ 100dvh）、幅は aspect-ratio で自動 */
+.TasteInsertImages__slide {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  aspect-ratio: var(--ratio, 3 / 4);
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+/* 画像はスライド内を cover で埋める */
+.TasteInsertImages__img {
+  object-fit: cover;
+}
+
+/* 右から新背景(#e4dfd9)を押し出すレイヤー（スクロール速度で丸み可変） */
+.TasteInsertImages__reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: 0;
+    bottom: 0;
+
+    background: #e4dfd9;
+
+    transform: translateX(calc(100% - 100% * var(--q)));
+    will-change: transform;
+
+    border-top-left-radius: clamp(12px, var(--curveX, 16px), 50vw) /
+      clamp(16px, var(--curveY, 24px), 80vh);
+    border-bottom-left-radius: clamp(12px, var(--curveX, 16px), 50vw) /
+      clamp(16px, var(--curveY, 24px), 80vh);
+  }
+}
+
+/* 省モーション */
+@media (prefers-reduced-motion: reduce) {
+  .TasteInsertImages__frame {
+    transform: none;
+  }
+}

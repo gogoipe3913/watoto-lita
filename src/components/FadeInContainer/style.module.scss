@@ -1,0 +1,10 @@
+.FadeInContainer {
+  transition-property: opacity;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in;
+  opacity: 0;
+
+  &--displayed {
+    opacity: 1;
+  }
+}

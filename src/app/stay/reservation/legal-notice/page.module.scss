@@ -1,0 +1,92 @@
+@use "../../../../styles/mixin" as m;
+
+.LegalNotice {
+  padding-bottom: 200px;
+  width: 100%;
+  height: auto;
+  color: var(--color-dark);
+  background-color: var(--color-stay-background);
+
+  @include m.respondToMd {
+    padding: 0 20px 200px;
+  }
+
+  & .LegalNotice__title {
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  & .LegalNotice__titleJa {
+    font-size: 28px;
+    width: fit-content;
+    letter-spacing: -3px;
+
+    @include m.respondToMd {
+      font-size: 22px;
+    }
+  }
+  & .LegalNotice__titleEn {
+    margin-top: 4px;
+    font-size: 16px;
+    width: fit-content;
+  }
+
+  & .LegalNotice__items {
+    margin: 120px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: fit-content;
+
+    @include m.respondToMd {
+      gap: 16px;
+    }
+  }
+
+  & .LegalNotice__item {
+    display: flex;
+    gap: 32px;
+    width: fit-content;
+
+    @include m.respondToMd {
+      padding-bottom: 16px;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      border-bottom: 1px solid var(--color-border-gray);
+    }
+  }
+
+  & .LegalNotice__itemKey {
+    min-width: 140px;
+    line-height: 1.6;
+
+    @include m.respondToMd {
+      font-size: 15px;
+    }
+  }
+  & .LegalNotice__itemValue {
+    max-width: 460px;
+    line-height: 1.6;
+    font-family: var(--font-family-text-jp);
+
+    @include m.respondToMd {
+      max-width: 350px;
+      font-size: 14px;
+    }
+  }
+
+  & .LegalNotice__itemValue + .LegalNotice__itemValue {
+    margin-top: 12px;
+  }
+
+  & .LegalNotice__pcOnly {
+    display: block;
+
+    @include m.respondToMd {
+      display: none;
+    }
+  }
+}

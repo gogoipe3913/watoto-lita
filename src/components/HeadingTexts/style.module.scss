@@ -1,0 +1,66 @@
+@use "../../styles/mixin.scss" as m;
+
+.HeadingTexts {
+  .HeadingTexts__headingBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8em;
+
+    @include m.respondToMd {
+      gap: 1.2em;
+    }
+
+    .HeadingTexts__textFirst,
+    .HeadingTexts__textSecond,
+    .HeadingTexts__textThird {
+      display: block;
+      font-size: 32px;
+
+      @include m.respondToMd {
+        font-size: 22px;
+      }
+    }
+
+    .HeadingTexts__letter + .HeadingTexts__letter {
+      margin-left: 1.4em;
+
+      @include m.respondToMd {
+        margin-left: 1em;
+      }
+    }
+  }
+
+  .HeadingTexts__category {
+    margin-top: 88px;
+    font-size: 16px;
+    font-family: var(--font-family-serif, cochin, serif);
+    font-style: italic;
+    letter-spacing: 0.04em;
+
+    @include m.respondToMd {
+      margin-top: 48px;
+      margin-left: 4px;
+      transform-origin: bottom left;
+      transform: rotate(90deg);
+      font-size: 11px;
+    }
+  }
+
+  .HeadingTexts__categoryBr {
+    display: inline; // インラインでOK
+
+    // デフォルト（PC/タブレット）は改行にする
+    &::before {
+      content: "\A"; // 改行コード
+      white-space: pre; // \A を改行として扱う
+    }
+
+    // スマホ（767px以下）はスペースに置換
+    @media (max-width: 767px) {
+      &::before {
+        content: " "; // 改行 → 半角スペース1個
+        white-space: normal;
+      }
+    }
+  }
+}

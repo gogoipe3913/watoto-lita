@@ -1,0 +1,228 @@
+@use "../styles/mixin" as m;
+
+.Top {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  .Top__columns {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+
+  .Top__columns > .Top__link {
+    display: block;
+    flex: 0 0 50%;
+    max-width: 50%;
+    height: 100%;
+    min-width: 0;
+  }
+
+  /* slickが高さ0にならないように（内側まで 100% を通す） */
+  .Top__slider :global(.slick-list),
+  .Top__slider :global(.slick-track),
+  .Top__slider :global(.slick-slide),
+  .Top__slider :global(.slick-slide > div) {
+    height: 100%;
+  }
+
+  .Top__slider {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .Top__logo {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 999;
+
+    @include m.respondToMd {
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 auto;
+      width: 200px;
+    }
+  }
+
+  .Top__link {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    max-width: 50%;
+
+    @include m.respondToMd {
+      width: 100%;
+      max-width: initial;
+      height: 50%;
+    }
+  }
+
+  /* 画像のビューポート（はみ出しを隠す） */
+  .Top__media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .Top__slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .Top__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+    will-change: transform;
+    transition: transform 6s ease-out;
+    transform-origin: center center;
+
+    transform: scale(1.18);
+
+    &--active {
+      transform: scale(1.05);
+    }
+
+    @include m.respondToMd {
+      height: 100%;
+    }
+  }
+
+  .Top__title {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    font-size: 28px;
+    font-family: mr-eaves-sans, sans-serif;
+    color: var(--color-white);
+
+    @include m.respondToMd {
+      display: none;
+    }
+  }
+
+  .Top__textTaste,
+  .Top__textStay {
+    position: absolute;
+    bottom: 40px;
+    font-size: 13px;
+    line-height: 1.8;
+    font-family: hina-mincho, sans-serif;
+    color: var(--color-white);
+
+    @include m.respondToMd {
+      display: none;
+    }
+  }
+
+  .Top__textTaste {
+    left: 40px;
+    width: fit-content;
+  }
+
+  .Top__textStay {
+    right: 40px;
+    width: fit-content;
+  }
+
+  /* レスポンシブのみ */
+  .Top__slideLink {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .Top__mobileInfo {
+    display: none;
+
+    @include m.respondToMd {
+      display: block;
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 0;
+      margin: 0 auto;
+      font-family: montserrat, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-align: left;
+      color: var(--color-white);
+      z-index: 999;
+
+      .Top__mobileTitle {
+        position: relative;
+        width: fit-content;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background-color: var(--color-white);
+        }
+      }
+
+      .Top__mobileText {
+        margin-top: 24px;
+        line-height: 1.8;
+      }
+
+      .Top__mobileTextFirst {
+        position: relative;
+        display: block;
+        width: fit-content;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: calc(-72% - 4px);
+          width: 72%;
+          height: 1px;
+          background-color: var(--color-white);
+        }
+      }
+    }
+  }
+
+  @include m.respondToMd {
+    /* 実視野高にフィット（iOSのアドレスバー対策） */
+    height: 100dvh;
+
+    .Top__single {
+      position: relative;
+      height: 100vh; /* Fallback */
+      height: 100dvh; /* 実視野高で上書き */
+    }
+
+    /* スライダーをラッパいっぱいに広げる（絶対配置） */
+    .Top__single .Top__slider {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+    }
+
+    /* 念のため、SP側でも slick 内部まで高さを通す */
+    .Top__single .Top__slider :global(.slick-slider),
+    .Top__single .Top__slider :global(.slick-list),
+    .Top__single .Top__slider :global(.slick-track),
+    .Top__single .Top__slider :global(.slick-slide),
+    .Top__single .Top__slider :global(.slick-slide > div) {
+      height: 100%;
+    }
+  }
+}

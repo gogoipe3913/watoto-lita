@@ -1,0 +1,132 @@
+@use "../../styles/mixin" as m;
+
+.LinkButton {
+  display: flex;
+
+  & .LinkButton__buttonWrapper + .LinkButton__buttonWrapper {
+    margin-left: 36px;
+
+    @include m.respondToSm {
+      margin-top: 36px;
+      margin-left: 0;
+    }
+  }
+
+  & .LinkButton__button {
+    display: flex;
+    width: fit-content;
+    color: inherit;
+
+    @include m.respondToSm {
+      width: fit-content;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        .LinkButton__buttonText {
+          padding-right: 8px;
+          border-radius: 17px 0 0 17px;
+          border: 1px solid transparent;
+          color: var(--color-dark);
+          background-color: var(--color-white);
+
+          &--blacked {
+            color: var(--color-white);
+            background-color: var(--color-dark);
+          }
+        }
+
+        .LinkButton__buttonCircle {
+          margin-left: -4px;
+          padding-right: 18px;
+          width: 38px;
+          border-radius: 0 24px 24px 0;
+          border: 1px solid transparent;
+          background-color: var(--color-white);
+
+          &--blacked {
+            background-color: var(--color-dark);
+          }
+        }
+
+        .LinkButton__buttonArrow {
+          border-top: 1px solid var(--color-dark);
+
+          &::after {
+            border-top: 1px solid var(--color-dark);
+          }
+
+          &--blacked {
+            border-top: 1px solid var(--color-white);
+
+            &::after {
+              border-top: 1px solid var(--color-white);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  & .LinkButton__buttonText {
+    display: block;
+    padding: 2px 24px;
+    border-radius: 17px;
+    border: 1px solid var(--color-white);
+    color: var(--color-white);
+
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+
+    &--blacked {
+      color: var(--color-dark);
+      border: 1px solid var(--color-dark);
+    }
+  }
+
+  & .LinkButton__buttonCircle {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--color-white);
+
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+
+    &--blacked {
+      border: 1px solid var(--color-dark);
+    }
+  }
+
+  & .LinkButton__buttonArrow {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 0px;
+    border-top: 1px solid var(--color-white);
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      right: -1px;
+      display: block;
+      width: 6px;
+      height: 0px;
+      border-top: 1px solid var(--color-white);
+      transform: rotate(45deg);
+    }
+
+    &--blacked {
+      border-top: 1px solid var(--color-dark);
+
+      &::after {
+        border-top: 1px solid var(--color-dark);
+      }
+    }
+  }
+}

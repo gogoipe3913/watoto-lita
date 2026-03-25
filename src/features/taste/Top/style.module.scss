@@ -1,0 +1,192 @@
+@use "../../../styles/mixin" as m;
+
+/* JS が更新する半径（直径は *2） */
+@property --r-js {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* セクションは 200vh：前半 100vh が演出区間 */
+.TasteTop {
+  position: relative;
+  height: 200vh;
+
+  @include m.respondToMd {
+    overflow: hidden;
+  }
+}
+
+/* ★ 擬似 sticky 対象（初期は相対配置。JSが fixed/absolute に切替） */
+.TasteTop__sticky {
+  position: relative;
+  height: 100vh; /* fallback */
+  height: 100dvh; /* SPのアドレスバー対策 */
+  --r-js: 0px; /* 念のため初期値 */
+}
+
+/* スライダーは全面に（背面） */
+.TasteTop__slider {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  z-index: 0;
+}
+
+/* slick 高さ 0 対策：中まで 100% を伝播 */
+.TasteTop__slider :global(.slick-slider),
+.TasteTop__slider :global(.slick-list),
+.TasteTop__slider :global(.slick-track),
+.TasteTop__slider :global(.slick-slide),
+.TasteTop__slider :global(.slick-slide > div) {
+  height: 100%;
+}
+
+/* スライドラッパー（入場アニメの起点） */
+.TasteTop__slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 端を隠す */
+}
+
+/* 画像：常に全面 + ゆっくりズームアウト（Ken Burns） */
+.TasteTop__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  transform: scale(1.18); /* 初期は拡大（あとで縮む） */
+  transition: transform 6s ease-out;
+  will-change: transform;
+}
+
+.TasteTop__image--active {
+  transform: scale(1.05); /* 端が出にくい微拡大 */
+}
+
+/* 中央から拡大する円（#E4DFD9）— clip-path を使わず width/height で拡大 */
+.TasteTop__reveal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 10;
+  background: #e4dfd9;
+
+  width: calc(var(--r-js) * 2);
+  height: calc(var(--r-js) * 2);
+  border-radius: 50%;
+  will-change: width, height;
+  pointer-events: none;
+}
+
+/* ロゴ（中央揃え） */
+.TasteTop__logo {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform: translateY(-40%);
+  width: 4.2%;
+  max-width: 60px;
+  min-width: 40px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* テキスト（最前面） */
+.TasteTop__text {
+  position: absolute;
+  left: 40px;
+  bottom: 44px;
+  z-index: 2;
+  color: var(--color-white, #fff);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+
+  @include m.respondToMd {
+    left: 16px;
+    bottom: 16px;
+  }
+}
+
+.TasteTop__textEn {
+  font-family: var(--font-family-serif, cochin, serif);
+  font-size: clamp(11px, 1.2vw, 12px);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.TasteTop__spBr {
+  display: none;
+
+  @include m.respondToMd {
+    display: inline;
+  }
+}
+.TasteTop__pcBr {
+  display: inline;
+
+  @include m.respondToMd {
+    display: none;
+  }
+}
+
+/* ===== 初期描画アニメ（ロード完了後に一度だけ） ===== */
+/* 初期状態：うっすら非表示＆わずかに下げる */
+.TasteTop__slider,
+.TasteTop__logo,
+.TasteTop__text {
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  will-change: opacity, transform;
+}
+
+.TasteTop__slider,
+.TasteTop__text {
+  transform: translateY(8px);
+}
+
+/* ready になったら順番にフェードイン */
+:root[data-taste-ready="true"] {
+  .TasteTop__slider {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 40ms;
+  }
+  .TasteTop__logo {
+    opacity: 1;
+    transform: translateY(-50%);
+    transition-delay: 300ms; /* ロゴは少し遅らせて気持ちよく */
+  }
+  .TasteTop__text {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 400ms; /* テキストはさらに後ろ */
+  }
+}
+
+/* 低モーション環境は演出控えめ（即時表示） */
+@media (prefers-reduced-motion: reduce) {
+  .TasteTop {
+    height: 100vh; /* 高さも通常化 */
+  }
+  .TasteTop__image,
+  .TasteTop__image--active {
+    transition: none;
+    transform: none;
+  }
+  .TasteTop__reveal {
+    width: 0;
+    height: 0;
+  }
+  .TasteTop__slider,
+  .TasteTop__logo,
+  .TasteTop__text {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

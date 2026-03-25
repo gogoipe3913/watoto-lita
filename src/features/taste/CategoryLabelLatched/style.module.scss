@@ -1,0 +1,73 @@
+@use "../../../styles/mixin" as m;
+
+.CategoryLabelLatched {
+  display: none;
+
+  @include m.respondToMd {
+    position: fixed;
+    right: -212px;
+    bottom: 272px;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-family: cochin, serif;
+    font-size: 12px;
+    color: var(--color-dark);
+    letter-spacing: 0.06em;
+    text-align: left;
+    opacity: 0;
+    z-index: var(--z-index-elevation-4);
+    transition-duration: 2s;
+    transition-property: opacity;
+    transform-origin: bottom left;
+    transform: rotate(90deg);
+  }
+
+  .CategoryLabelLatched__title {
+    position: relative;
+    width: fit-content;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-dark);
+      transition-duration: 2s;
+    }
+  }
+
+  .CategoryLabelLatched__text {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    line-height: 1.8;
+  }
+
+  .CategoryLabelLatched__textFirst {
+    position: relative;
+    display: block;
+    width: fit-content;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: calc(-72% - 4px);
+      width: 72%;
+      height: 1px;
+      background-color: var(--color-dark);
+      transition-duration: 2s;
+    }
+  }
+}
+
+html[data-hero-latched] .CategoryLabelLatched {
+  @include m.respondToMd {
+    opacity: 1;
+  }
+}

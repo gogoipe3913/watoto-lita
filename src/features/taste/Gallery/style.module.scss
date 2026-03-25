@@ -1,0 +1,68 @@
+@use "../../../styles/mixin" as m;
+
+.TasteGallery {
+  position: relative;
+  padding: 30vh 300px 50vh;
+  z-index: 10;
+  color: var(--color-dark);
+  background-color: var(--color-taste-background);
+
+  @include m.respondToMd {
+    padding: 200px 28px;
+  }
+
+  @include m.respondToOverXlg {
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+    width: 1100px;
+  }
+
+  .TasteGallery__heading {
+    width: fit-content;
+    height: 100vh;
+  }
+
+  .TasteGallery__stickyHeading {
+    position: sticky;
+    top: 200px;
+    z-index: 1;
+
+    @include m.respondToMd {
+      top: 60px;
+      margin-left: 16px;
+    }
+  }
+
+  .TasteGallery__images {
+    margin-top: 20vh;
+    column-count: 3;
+    column-gap: 16px;
+
+    @include m.respondToMd {
+      column-count: 2;
+    }
+
+    @include m.respondToSm {
+      column-count: 1;
+    }
+
+    li {
+      @include m.respondToSm {
+        margin: 0 auto;
+        max-width: 320px;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        display: block;
+      }
+    }
+
+    li + li {
+      margin-top: 16px;
+    }
+  }
+}

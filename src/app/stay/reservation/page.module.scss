@@ -1,0 +1,111 @@
+@use "../../../styles/mixin" as m;
+
+.Reservation {
+  padding-bottom: 120px;
+  width: 100%;
+  background-color: var(--color-stay-background);
+  color: var(--color-dark);
+
+  a {
+    color: var(--color-stay-text-black);
+  }
+
+  & .Reservation__title {
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  & .Reservation__titleJa {
+    font-size: 28px;
+    width: fit-content;
+    letter-spacing: -3px;
+
+    @include m.respondToMd {
+      font-size: 22px;
+    }
+  }
+  & .Reservation__titleEn {
+    margin-top: 4px;
+    font-size: 16px;
+    width: fit-content;
+  }
+
+  & .Reservation__text {
+    margin: 32px auto 0;
+    width: fit-content;
+    max-width: 640px;
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.6;
+
+    @include m.respondToMd {
+      max-width: 320px;
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+
+  & .Reservation__calendar {
+    margin: 100px auto 0;
+    max-width: 80%;
+
+    @include m.respondToMd {
+      max-width: calc(100% - 40px);
+    }
+  }
+
+  & .Reservation__calendarEventLabel {
+    padding: 8px 2px;
+    background-color: var(--color-red);
+    border: var(--color-red);
+    font-size: 13px;
+
+    @include m.respondToMd {
+      font-size: 10px;
+    }
+  }
+
+  & .Reservation__link {
+    text-decoration: underline;
+  }
+
+  & .Reservation__form {
+    margin: 120px auto 0;
+    max-width: 440px;
+
+    @include m.respondToMd {
+      padding: 0 20px;
+      font-size: 14px;
+    }
+  }
+
+  & .Reservation__totalPrice {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    padding: 24px 16px;
+    color: var(--color-cream);
+    background-color: var(--color-blue);
+    border-radius: 8px;
+
+    @include m.respondToSm {
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      margin: 0 auto;
+      width: calc(100% - 40px);
+    }
+  }
+
+  & .Reservation__totalPriceBody {
+    width: 160px;
+    text-align: center;
+    font-family: var(--font-family-text-jp);
+
+    @include m.respondToSm {
+      width: 100%;
+    }
+  }
+}

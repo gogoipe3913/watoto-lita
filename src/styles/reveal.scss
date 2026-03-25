@@ -1,0 +1,54 @@
+/* styles/reveal.scss（グローバルに読み込み） */
+
+:root {
+  --reveal-duration: 1100ms; /* ← ゆっくり */
+  // --reveal-ease: cubic-bezier(0.25, 0.8, 0.2, 1); /* 余韻のある ease-out */
+  --reveal-ease: cubic-bezier(0.4, 0, 0.2, 1); /* ease-in-out */
+  --reveal-translate: 6px; /* ← 動きを控えめに */
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-translate), 0);
+  transition: opacity var(--reveal-duration) var(--reveal-ease),
+    transform var(--reveal-duration) var(--reveal-ease);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* バリエーション（遅延・方向） */
+[data-reveal][data-reveal-delay="1"] {
+  transition-delay: 120ms;
+} /* ← 少し伸ばす */
+[data-reveal][data-reveal-delay="2"] {
+  transition-delay: 240ms;
+}
+[data-reveal][data-reveal-delay="3"] {
+  transition-delay: 360ms;
+}
+
+[data-reveal="up"] {
+  transform: translate3d(0, var(--reveal-translate), 0);
+}
+[data-reveal="down"] {
+  transform: translate3d(0, calc(var(--reveal-translate) * -1), 0);
+}
+[data-reveal="left"] {
+  transform: translate3d(var(--reveal-translate), 0, 0);
+}
+[data-reveal="right"] {
+  transform: translate3d(calc(var(--reveal-translate) * -1), 0, 0);
+}
+
+/* 動きを減らす設定の尊重 */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

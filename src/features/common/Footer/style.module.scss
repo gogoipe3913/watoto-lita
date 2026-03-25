@@ -1,0 +1,69 @@
+@use "../../../styles/mixin" as m;
+
+.Footer {
+  position: relative;
+  z-index: var(--z-index-elevation-2);
+  margin-top: 160px;
+  padding: 80px 40px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 80px 80px 0 0;
+  height: 300px;
+  background-color: var(--color-white);
+
+  @include m.respondToSm {
+    border-radius: 28px 28px 0 0;
+  }
+
+  .Footer__menu {
+    display: flex;
+    gap: 20px;
+
+    li {
+      a {
+        color: var(--color-black);
+      }
+    }
+  }
+
+  .Footer__infoDetail {
+    margin-top: 20px;
+    & > a,
+    span {
+      display: block;
+      width: fit-content;
+      color: var(--color-black);
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+  }
+
+  .Footer__externalLinks {
+    margin-top: 40px;
+
+    a {
+      display: block;
+      width: fit-content;
+    }
+
+    a + a {
+      margin-top: 8px;
+    }
+  }
+
+  .Footer__copyright {
+    margin-top: 40px;
+    font-size: 10px;
+    text-align: left;
+  }
+
+  .Footer__logo {
+    width: 40px;
+    height: 120px;
+
+    @include m.respondToSm {
+      display: none;
+    }
+  }
+}

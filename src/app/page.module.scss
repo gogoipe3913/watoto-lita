@@ -1,228 +1,114 @@
 @use "../styles/mixin" as m;
 
-.Top {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+.Stay {
+  $padding-frame-vertical: 40px;
+  $padding-frame-horizontal: 48px;
 
-  .Top__columns {
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-stay-background);
+
+  & .Stay__texts {
+    // 準備中テキスト
     display: flex;
-    height: 100%;
-    width: 100%;
-  }
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-family-text-jp);
+    color: var(--color-dark);
 
-  .Top__columns > .Top__link {
-    display: block;
-    flex: 0 0 50%;
-    max-width: 50%;
-    height: 100%;
-    min-width: 0;
-  }
+    @include m.respondToSm {
+      padding: 20px;
+      font-size: 14px;
+    }
 
-  /* slickが高さ0にならないように（内側まで 100% を通す） */
-  .Top__slider :global(.slick-list),
-  .Top__slider :global(.slick-track),
-  .Top__slider :global(.slick-slide),
-  .Top__slider :global(.slick-slide > div) {
-    height: 100%;
-  }
-
-  .Top__slider {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-  }
-
-  .Top__logo {
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    z-index: 999;
-
-    @include m.respondToMd {
-      top: 50%;
-      transform: translateY(-50%);
-      margin: 0 auto;
-      width: 200px;
+    p {
+      line-height: 2.5;
     }
   }
 
-  .Top__link {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    max-width: 50%;
+  & .Stay__igLink {
+    display: inline;
+    color: var(--color-text-gray);
+    text-decoration: underline;
+  }
 
-    @include m.respondToMd {
-      width: 100%;
-      max-width: initial;
-      height: 50%;
+  & .Stay__reservationLink {
+    margin: 40px auto 0;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 20px;
+    width: 360px;
+    font-size: 20px;
+    color: var(--color-dark);
+    font-family: var(--font-family-text-en);
+    border: 1px solid var(--color-dark);
+    border-radius: 40px;
+    // アニメーション設定
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+
+    @include m.respondToSm {
+      margin-top: 20px;
+      padding: 12px 24px;
+      width: 300px;
+      font-size: 17px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        // color: var(--color-white);
+        border-color: var(--color-red);
+        background-color: var(--color-red);
+      }
     }
   }
 
-  /* 画像のビューポート（はみ出しを隠す） */
-  .Top__media {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .Top__slide {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .Top__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 45%;
-    will-change: transform;
-    transition: transform 6s ease-out;
-    transform-origin: center center;
-
-    transform: scale(1.18);
-
-    &--active {
-      transform: scale(1.05);
-    }
-
-    @include m.respondToMd {
-      height: 100%;
-    }
-  }
-
-  .Top__title {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: fit-content;
-    font-size: 28px;
-    font-family: mr-eaves-sans, sans-serif;
-    color: var(--color-white);
-
-    @include m.respondToMd {
-      display: none;
-    }
-  }
-
-  .Top__textTaste,
-  .Top__textStay {
-    position: absolute;
-    bottom: 40px;
-    font-size: 13px;
-    line-height: 1.8;
-    font-family: hina-mincho, sans-serif;
-    color: var(--color-white);
-
-    @include m.respondToMd {
-      display: none;
-    }
-  }
-
-  .Top__textTaste {
-    left: 40px;
-    width: fit-content;
-  }
-
-  .Top__textStay {
-    right: 40px;
-    width: fit-content;
-  }
-
-  /* レスポンシブのみ */
-  .Top__slideLink {
+  & .Stay__linkArrow {
     position: relative;
     display: block;
-    width: 100%;
-    height: 100%;
-  }
+    width: 100px;
+    height: 0px;
+    border-top: 1px solid var(--color-black);
+    // アニメーション設定
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
 
-  .Top__mobileInfo {
-    display: none;
-
-    @include m.respondToMd {
+    &::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: -3px;
       display: block;
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
-      right: 0;
-      margin: 0 auto;
-      font-family: montserrat, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      text-align: left;
-      color: var(--color-white);
-      z-index: 999;
+      width: 12px;
+      height: 0px;
+      border-top: 1px solid var(--color-black);
+      transform: rotate(45deg);
 
-      .Top__mobileTitle {
-        position: relative;
-        width: fit-content;
+      // アニメーション設定
+      transition-duration: 0.4s;
+      transition-timing-function: ease-in-out;
+    }
 
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: -4px;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          background-color: var(--color-white);
-        }
-      }
-
-      .Top__mobileText {
-        margin-top: 24px;
-        line-height: 1.8;
-      }
-
-      .Top__mobileTextFirst {
-        position: relative;
-        display: block;
-        width: fit-content;
-
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: calc(-72% - 4px);
-          width: 72%;
-          height: 1px;
-          background-color: var(--color-white);
-        }
-      }
+    @include m.respondToSm {
+      width: 60px;
     }
   }
 
-  @include m.respondToMd {
-    /* 実視野高にフィット（iOSのアドレスバー対策） */
-    height: 100dvh;
+  & .Stay__legalNoticeLink {
+    margin: 40px auto 0;
+    display: block;
+    color: var(--color-text-gray);
+    text-align: center;
+    text-decoration: underline;
 
-    .Top__single {
-      position: relative;
-      height: 100vh; /* Fallback */
-      height: 100dvh; /* 実視野高で上書き */
-    }
-
-    /* スライダーをラッパいっぱいに広げる（絶対配置） */
-    .Top__single .Top__slider {
-      position: absolute;
-      inset: 0;
-      height: 100%;
-    }
-
-    /* 念のため、SP側でも slick 内部まで高さを通す */
-    .Top__single .Top__slider :global(.slick-slider),
-    .Top__single .Top__slider :global(.slick-list),
-    .Top__single .Top__slider :global(.slick-track),
-    .Top__single .Top__slider :global(.slick-slide),
-    .Top__single .Top__slider :global(.slick-slide > div) {
-      height: 100%;
+    @include m.respondToSm {
+      font-size: 14px;
     }
   }
 }

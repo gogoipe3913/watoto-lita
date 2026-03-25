@@ -12,11 +12,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Watoto | Stay lita",
-  description: "福井県小浜市にある民泊施設です。",
+  title: "watoto stay Lita | 予約フォーム",
+  description:
+    "watoto stay Litaの予約フォームページ。宿泊のご予約はこちらからお申し込みください。",
 };
 
-export default function StayLayout({
+export default function ReservationLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

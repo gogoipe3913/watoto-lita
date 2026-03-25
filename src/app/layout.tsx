@@ -18,30 +18,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://watoto-kula.com"),
+  metadataBase: new URL("https://watoto-lita.com"),
 
-  title: "わとと | 京都・下鴨の飲食店 & 福井・小浜の宿",
+  title: "watoto stay Lita",
   description:
-    "京都・下鴨の飲食店、福井・小浜の宿を運営するわととについて紹介する公式サイト。人と人とのつながりを大切にし、食・音楽・文化・滞在を通して多様な時間を提供します。",
-  keywords: [
-    "わとと",
-    "watoto",
-    "京都",
-    "下鴨",
-    "カフェ",
-    "バー",
-    "宿",
-    "小浜",
-    "福井",
-    "薬膳",
-    "発酵食品",
-    "イベント",
-  ],
+    "福井・小浜の宿watoto stay Litaについて紹介するウェブサイト。人と人とのつながりを大切にし、食・音楽・文化・滞在を通して多様な時間を提供します。",
+  keywords: ["わとと", "watoto", "宿", "一棟貸し", "小浜", "福井", "イベント"],
 
   // 著者・制作者・発行主体
   authors: [{ name: "taiki kishiyama" }],
   creator: "taiki kishiyama",
-  publisher: "watoto",
+  publisher: "watoto stay Lita",
 
   alternates: {
     canonical: "/",
@@ -50,17 +37,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "わとと | 京都・下鴨の飲食店 & 福井・小浜の宿",
+    title: "watoto stay Lita",
     description:
-      "京都・下鴨の飲食店、福井・小浜の宿を運営するわととについて紹介する公式サイト。人と人とのつながりを大切にし、食・音楽・文化・滞在を通して多様な時間を提供します。",
-    siteName: "わとと",
+      "福井・小浜の宿watoto stay Litaについて紹介するウェブサイト。人と人とのつながりを大切にし、食・音楽・文化・滞在を通して多様な時間を提供します。",
+    siteName: "watoto stay Lita",
     locale: "ja_JP",
     images: [
       {
         url: "/og/watoto-og.jpg",
         width: 1200,
         height: 630,
-        alt: "わとと（watoto）イメージ",
+        alt: "watoto stay Litaのイメージ",
       },
     ],
   },

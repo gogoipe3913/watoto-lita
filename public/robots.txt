@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://watoto-kula.com
+Host: https://watoto-lita.com
 
 # Sitemaps
-Sitemap: https://watoto-kula.com/sitemap.xml
+Sitemap: https://watoto-lita.com/sitemap.xml

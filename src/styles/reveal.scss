@@ -44,6 +44,14 @@
   transform: translate3d(calc(var(--reveal-translate) * -1), 0, 0);
 }
 
+/* JS が動かない環境では最初から表示しておく（真っ白防止） */
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* 動きを減らす設定の尊重 */
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {

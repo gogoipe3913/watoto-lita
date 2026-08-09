@@ -1,114 +1,1044 @@
 @use "../styles/mixin" as m;
 
-.Stay {
-  $padding-frame-vertical: 40px;
-  $padding-frame-horizontal: 48px;
+/**
+ * トップページ（Figma: Watoto / node 2726-734, カンバス 1440 x 24706）
+ * デザイン座標をそのまま CSS 変数 --x / --y / --w / --h で受け取り、
+ * `--u` を掛けてスケールさせる。1150px 以下は position: static の1カラム。
+ */
+
+$en: var(--font-family-en);
+$jp-head: var(--font-family-jp-heading);
+$jp-body: var(--font-family-jp-body);
+
+@function u($n) {
+  @return calc(#{$n} * var(--u));
+}
+
+.Home {
+  --u: calc(min(100vw, 1920px) / 1440);
+  // 全体のフェードインを 0.6s に
+  --reveal-duration: 600ms;
+  --reveal-translate: 12px;
 
   width: 100%;
-  height: 100svh;
+  background-color: var(--color-lita-background);
+  color: var(--color-lita-text);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :global(section),
+  :global(footer) {
+    scroll-margin-top: u(80);
+  }
+}
+
+.canvas {
+  position: relative;
+  width: u(1440);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ 共通 */
+
+.heading,
+.aboutHeading {
+  position: absolute;
+  left: u(var(--x));
+  top: u(var(--y));
+  font-family: $jp-head;
+  font-weight: 400;
+  white-space: pre;
+}
+
+.aboutHeading {
+  font-size: u(36);
+  line-height: u(112);
+  letter-spacing: u(22.32);
+}
+
+.heading {
+  font-size: u(24);
+  line-height: u(51);
+  letter-spacing: u(14.88);
+}
+
+.text {
+  position: absolute;
+  left: u(var(--x));
+  top: u(var(--y));
+  width: u(var(--w, 440));
+  font-family: $jp-body;
+  font-size: u(15);
+  line-height: u(34);
+  letter-spacing: u(0.3);
+  white-space: pre-line;
+}
+
+.text--en {
+  font-family: $en;
+}
+
+.photo {
+  position: absolute;
+  left: u(var(--x));
+  top: u(var(--y));
+  width: u(var(--w));
+  height: u(var(--h));
+  margin: 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.inlineLink {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* ------------------------------------------------------------------ HERO */
+
+.hero {
+  position: relative;
+  height: u(1400);
+}
+
+.logo {
+  position: fixed;
+  left: 40px;
+  top: 32px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: var(--color-stay-background);
+  font-family: $en;
+  font-weight: 400;
+  white-space: nowrap;
+  z-index: var(--z-index-elevation-1);
+}
 
-  & .Stay__texts {
-    // 準備中テキスト
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    font-family: var(--font-family-text-jp);
-    color: var(--color-dark);
+.logo__main {
+  font-size: u(32);
+  line-height: 1;
+  letter-spacing: u(0.88);
+}
 
-    @include m.respondToSm {
-      padding: 20px;
-      font-size: 14px;
-    }
+.logo__sub {
+  margin-top: u(0);
+  font-size: u(12);
+  line-height: 1;
+  letter-spacing: u(0.28);
+}
 
-    p {
-      line-height: 2.5;
+.heroImage {
+  position: absolute;
+  left: u(-11);
+  top: u(-27);
+  width: u(1441);
+  height: u(961);
+  -webkit-mask-image: url("/home/svg/hero-mask.svg");
+  mask-image: url("/home/svg/hero-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: u(1107.11) u(727);
+  mask-size: u(1107.11) u(727);
+  -webkit-mask-position: u(166) u(138);
+  mask-position: u(166) u(138);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.heroMark {
+  position: fixed;
+  // left: u(1318);
+  // top: u(39.5);
+  top: 40px;
+  right: 40px;
+  width: u(52);
+  height: u(26);
+  background: url("/home/svg/watoto-mark.svg") no-repeat center / contain;
+}
+
+/* コピーは「白い帯 + その上に載る文字」。帯が .heroCopy 本体、文字が span。 */
+.heroCopy {
+  position: absolute;
+  left: u(var(--x));
+  top: u(var(--y));
+  width: u(var(--w));
+  height: u(12);
+  background-color: #fff;
+
+  span {
+    position: absolute;
+    left: u(var(--tx));
+    top: u(var(--ty));
+    display: block;
+    font-family: $jp-head;
+    font-size: u(36);
+    line-height: 1;
+    letter-spacing: u(22.32);
+    white-space: nowrap;
+  }
+}
+
+.heroCopy--1 {
+  --x: 143;
+  --y: 320;
+  --w: 352;
+  --tx: -4;
+  --ty: -22.9;
+}
+
+.heroCopy--2 {
+  --x: 141;
+  --y: 425;
+  --w: 165;
+  --tx: -2;
+  --ty: -25.3;
+}
+
+.heroCopy--3 {
+  --x: 140;
+  --y: 528;
+  --w: 225;
+  --tx: -1;
+  --ty: -22.6;
+}
+
+.heroPlace {
+  position: fixed;
+  left: 40;
+  bottom: 48px;
+  width: u(180);
+  height: u(62);
+  font-family: $en;
+  font-size: u(14);
+  line-height: 1;
+  letter-spacing: u(0.56);
+  z-index: var(--z-index-elevation-1);
+
+  span {
+    position: absolute;
+    white-space: nowrap;
+  }
+}
+
+.heroPlace__stay {
+  left: 0;
+  top: 0;
+}
+
+.heroPlace__rule1 {
+  left: 0;
+  top: u(13.5);
+  width: u(37);
+  height: 1px;
+  background-color: currentColor;
+}
+
+.heroPlace__fukui {
+  left: 0;
+  top: u(32);
+}
+
+.heroPlace__rule2 {
+  left: u(54);
+  top: u(38.5);
+  width: u(69);
+  height: 1px;
+  background-color: currentColor;
+}
+
+.heroPlace__obama {
+  left: 0;
+  top: u(48);
+}
+
+/**
+ * グローバルナビ。画面に固定してフッターまで追従する。
+ * - 横: カンバス（最大 1920px で中央寄せ）の右端から u(40)
+ * - 縦: デザイン位置 u(775.5)。画面が低いときは下端から u(82.5) の位置まで繰り上げる
+ */
+.heroMenu {
+  position: fixed;
+  right: calc(50% - 680 * var(--u));
+  // top: min(calc(775.5 * var(--u)), calc(100vh - 224.5 * var(--u)));
+  bottom: 48px;
+  z-index: var(--z-index-elevation-1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: u(18);
+  font-family: $en;
+  font-size: u(14);
+  line-height: 1;
+  letter-spacing: u(0.28);
+  transition: opacity 0.4s ease;
+
+  // フッターに差し掛かったら引っ込める（フッター内にも同じメニューがあるため）
+  &[data-at-footer="true"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.heroMenu__link {
+  position: relative;
+  display: block;
+  transition: opacity 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.5;
     }
   }
+}
 
-  & .Stay__igLink {
-    display: inline;
-    color: var(--color-text-gray);
-    text-decoration: underline;
+/** 現在地インジケーター（テキストの右外に置く ●） */
+.heroMenu__mark {
+  position: absolute;
+  right: u(-12);
+  top: u(7.5);
+  width: u(4);
+  height: u(4);
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.heroMenu__link--active .heroMenu__mark {
+  opacity: 1;
+}
+
+/* ----------------------------------------------------------------- ABOUT */
+
+.about {
+  position: relative;
+  height: u(1530);
+
+  .text {
+    line-height: u(30);
+  }
+}
+
+/* --------------------------------------------------------------- CONCEPT */
+
+.concept {
+  position: relative;
+  height: u(7401);
+}
+
+/* --------------------------------------------------------------- GALLERY */
+
+.gallery {
+  position: relative;
+  height: u(5047);
+}
+
+/* ------------------------------------------------------------ EXPERIENCE */
+
+.experience {
+  position: relative;
+  height: u(2584);
+}
+
+/* ----------------------------------------------------------- INFORMATION */
+
+.information {
+  position: relative;
+  padding-bottom: u(290);
+}
+
+.info {
+  width: u(888);
+  margin: 0 auto;
+}
+
+.infoTitle {
+  font-family: $jp-head;
+  font-weight: 400;
+  font-size: u(36);
+  line-height: u(112);
+  letter-spacing: u(22.32);
+}
+
+.infoRows {
+  margin-top: u(159);
+}
+
+.infoRow {
+  display: flex;
+
+  & + & {
+    margin-top: u(120);
+  }
+}
+
+.infoRow__label {
+  width: u(452);
+  flex: none;
+  font-family: $en;
+  font-size: u(28);
+  line-height: u(34);
+  letter-spacing: u(0.56);
+}
+
+.infoRow__body {
+  width: u(436);
+  flex: none;
+}
+
+.infoRow__plain {
+  font-family: $jp-body;
+  font-size: u(14);
+  line-height: u(34);
+  letter-spacing: u(0.3);
+  white-space: pre-line;
+}
+
+.infoBlock {
+  & + & {
+    margin-top: u(24);
+  }
+}
+
+.infoBlock__title {
+  margin-bottom: u(16);
+  font-family: $jp-body;
+  font-size: u(16);
+  line-height: u(18);
+  letter-spacing: u(0.36);
+}
+
+.infoBlock__text {
+  font-family: $jp-body;
+  font-size: u(13);
+  line-height: u(34);
+  letter-spacing: u(0.3);
+  white-space: pre-line;
+}
+
+.infoBlock__note {
+  font-family: $jp-body;
+  font-size: u(12);
+  line-height: u(22);
+  letter-spacing: u(0.24);
+}
+
+.floorplan {
+  width: 100%;
+  margin: u(40) 0 0;
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1786 / 880;
   }
 
-  & .Stay__reservationLink {
-    margin: 40px auto 0;
-    padding: 20px 24px;
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    gap: 20px;
-    width: 360px;
-    font-size: 20px;
-    color: var(--color-dark);
-    font-family: var(--font-family-text-en);
-    border: 1px solid var(--color-dark);
-    border-radius: 40px;
-    // アニメーション設定
-    transition-duration: 0.4s;
-    transition-timing-function: ease-in-out;
+  & + .infoRow {
+    margin-top: u(120);
+  }
+}
 
-    @include m.respondToSm {
-      margin-top: 20px;
-      padding: 12px 24px;
-      width: 300px;
-      font-size: 17px;
-    }
+.reserveButton {
+  display: flex;
+  width: u(500);
+  height: u(80);
+  margin: u(140) auto 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  border-radius: u(50);
+  font-family: $jp-body;
+  font-size: u(20);
+  letter-spacing: u(0.4);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 
-    @media (hover: hover) {
-      &:hover {
-        // color: var(--color-white);
-        border-color: var(--color-red);
-        background-color: var(--color-red);
-      }
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-lita-text);
+      color: var(--color-lita-background);
     }
   }
+}
 
-  & .Stay__linkArrow {
+/* ---------------------------------------------------------- WATOTO KYOTO */
+
+.kyoto {
+  position: relative;
+  height: u(1153);
+}
+
+.kyoto__link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.kyoto__image {
+  position: absolute;
+  left: u(73.02);
+  top: 0;
+  display: block;
+  width: u(1284.198);
+  height: u(856.43);
+  -webkit-mask-image: url("/home/svg/kyoto-mask.svg");
+  mask-image: url("/home/svg/kyoto-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: u(1253.5) u(765.422);
+  mask-size: u(1253.5) u(765.422);
+  -webkit-mask-position: u(19.98) u(50.426);
+  mask-position: u(19.98) u(50.426);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+}
+
+.kyoto__heading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(417);
+  text-align: center;
+  color: var(--color-white);
+  font-family: $jp-head;
+  font-size: u(28);
+  line-height: u(112);
+  letter-spacing: u(17.36);
+}
+
+.kyoto__button {
+  position: absolute;
+  left: 50%;
+  margin-left: u(-201.5);
+  top: u(518);
+  display: flex;
+  width: u(403);
+  height: u(54);
+  align-items: center;
+  justify-content: center;
+  gap: u(20);
+  border: 1px solid var(--color-white);
+  border-radius: u(40);
+  transition: background-color 0.4s ease;
+}
+
+.kyoto__buttonLabel {
+  color: var(--color-white);
+  font-family: $en;
+  font-size: u(24);
+  line-height: 1;
+  letter-spacing: u(0.48);
+}
+
+.kyoto__arrow {
+  width: u(100.5);
+  height: u(12);
+  background: url("/home/svg/arrow-white.svg") no-repeat center / contain;
+}
+
+@media (hover: hover) {
+  .kyoto__link:hover {
+    .kyoto__image img {
+      transform: scale(1.03);
+    }
+
+    .kyoto__button {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+/* ---------------------------------------------------------------- FOOTER */
+
+.footer {
+  position: relative;
+  height: u(686);
+  font-family: $en;
+}
+
+.footerLogo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(36);
+  text-align: center;
+}
+
+.footerLogo__main {
+  display: block;
+  font-size: u(44);
+  line-height: 1;
+  letter-spacing: u(0.88);
+}
+
+.footerLogo__sub {
+  display: block;
+  margin-top: u(3);
+  font-size: u(14);
+  line-height: 1;
+  letter-spacing: u(0.28);
+}
+
+.footerMenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(152);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: u(16);
+  font-size: u(14);
+  line-height: u(16);
+  letter-spacing: u(0.28);
+
+  @media (hover: hover) {
+    a:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+.footerKyoto {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(336);
+  text-align: center;
+  font-size: u(14);
+  line-height: u(16);
+  letter-spacing: u(0.28);
+}
+
+.footerRule {
+  position: absolute;
+  left: 50%;
+  margin-left: u(-6);
+  top: u(380);
+  width: u(12);
+  height: 1px;
+  background-color: currentColor;
+}
+
+.footerLegal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(408);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: u(8);
+  color: var(--color-text-gray-2, #c7c7c7);
+  font-size: u(12);
+  line-height: u(16);
+  letter-spacing: u(0.24);
+}
+
+.footerCopyright {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: u(656);
+  text-align: center;
+  font-size: u(9);
+  line-height: u(10);
+}
+
+/* ================================================================ MOBILE */
+
+@include m.respondToLlg {
+  .canvas {
+    width: 100%;
+  }
+
+  .heading,
+  .aboutHeading,
+  .text,
+  .photo {
+    position: static;
+    left: auto;
+    top: auto;
+    width: 100%;
+  }
+
+  .aboutHeading {
+    margin-bottom: 40px;
+    font-size: 21px;
+    line-height: 2.6;
+    letter-spacing: 0.5em;
+  }
+
+  .heading {
+    margin-bottom: 32px;
+    font-size: 17px;
+    line-height: 2.6;
+    letter-spacing: 0.45em;
+  }
+
+  .text {
+    margin-bottom: 48px;
+    font-size: 14px;
+    line-height: 2.2;
+    letter-spacing: 0.02em;
+  }
+
+  .photo {
+    height: auto;
+    margin-bottom: 48px;
+    aspect-ratio: var(--w) / var(--h);
+  }
+
+  /* --- hero (Figma: node 2783-1182 / カンバス 375 x 667) --- */
+  // PC と同じ「デザイン座標 × --u」方式のまま、基準を 375 カンバスに差し替える
+  .hero {
+    --u: calc(min(100vw, 768px) / 375);
+    // デバイスの高さに合わせて縦をフィットさせる。
+    // 375x667 のデザイン比より縦長な端末で余る分が --extra。
+    // 上（ロゴ〜画像）と下（画像〜STAY ブロック）に半分ずつ配分する。
+    --extra: max(0px, calc(100dvh - 667 * var(--u)));
+
     position: relative;
-    display: block;
-    width: 100px;
-    height: 0px;
-    border-top: 1px solid var(--color-black);
-    // アニメーション設定
-    transition-duration: 0.4s;
-    transition-timing-function: ease-in-out;
+    height: max(100dvh, calc(667 * var(--u)));
+    max-width: 768px;
+    margin: 0 auto;
+  }
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: -5px;
-      right: -3px;
-      display: block;
-      width: 12px;
-      height: 0px;
-      border-top: 1px solid var(--color-black);
-      transform: rotate(45deg);
+  .logo {
+    left: u(16);
+    top: u(15.8);
+    width: auto;
+  }
 
-      // アニメーション設定
-      transition-duration: 0.4s;
-      transition-timing-function: ease-in-out;
-    }
+  .logo__main {
+    font-size: u(24);
+    letter-spacing: u(0.48);
+  }
 
-    @include m.respondToSm {
-      width: 60px;
+  .logo__sub {
+    margin-top: u(-1.4);
+    font-size: u(8);
+    letter-spacing: u(0.16);
+  }
+
+  .heroImage {
+    left: u(26);
+    top: calc(113 * var(--u) + var(--extra) / 2);
+    width: u(326.5);
+    height: u(433);
+    -webkit-mask-image: url("/home/svg/hero-mask-sp.svg");
+    mask-image: url("/home/svg/hero-mask-sp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    img {
+      object-position: 48% center;
     }
   }
 
-  & .Stay__legalNoticeLink {
-    margin: 40px auto 0;
-    display: block;
-    color: var(--color-text-gray);
-    text-align: center;
-    text-decoration: underline;
+  .heroMark {
+    left: auto;
+    right: u(16);
+    top: u(20);
+    width: u(44);
+    height: u(23);
+  }
 
-    @include m.respondToSm {
-      font-size: 14px;
+  .heroCopy {
+    // コピーは画像の上に載るので、画像と同じだけ下げる
+    top: calc(var(--y) * var(--u) + var(--extra) / 2);
+    height: u(7);
+
+    span {
+      font-size: u(18.5);
+      letter-spacing: 0.62em;
     }
+  }
+
+  .heroCopy--1 {
+    --x: 25;
+    --y: 219;
+    --w: 178;
+    --tx: -1.4;
+    --ty: -11;
+  }
+
+  .heroCopy--2 {
+    --x: 25;
+    --y: 258;
+    --w: 83;
+    --tx: -0.5;
+    --ty: -10.2;
+  }
+
+  .heroCopy--3 {
+    --x: 25;
+    --y: 297;
+    --w: 112;
+    --tx: -0.6;
+    --ty: -10.3;
+  }
+
+  .heroPlace {
+    left: u(15.5);
+    // 画面下端から u(76.2) の位置に留める
+    top: calc(590.8 * var(--u) + var(--extra));
+    width: u(130);
+    height: u(56);
+    font-size: u(13);
+    letter-spacing: u(0.52);
+  }
+
+  .heroPlace__rule1 {
+    top: u(13.2);
+    width: u(34);
+  }
+
+  .heroPlace__fukui {
+    top: u(27);
+  }
+
+  .heroPlace__rule2 {
+    left: u(50.5);
+    top: u(33.2);
+    width: u(64);
+  }
+
+  .heroPlace__obama {
+    top: u(43);
+  }
+
+  .heroMenu {
+    display: none;
+  }
+
+  /* --- 本文セクション --- */
+  .about,
+  .concept,
+  .gallery,
+  .experience {
+    height: auto;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 72px 24px 24px;
+  }
+
+  .about .text {
+    line-height: 2.2;
+  }
+
+  /* --- 施設情報 --- */
+  .information {
+    padding: 48px 0 80px;
+  }
+
+  .info {
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .infoTitle {
+    font-size: 21px;
+    line-height: 2.2;
+    letter-spacing: 0.5em;
+  }
+
+  .infoRows {
+    margin-top: 48px;
+  }
+
+  .infoRow {
+    flex-direction: column;
+
+    & + & {
+      margin-top: 56px;
+    }
+  }
+
+  .infoRow__label {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  .infoRow__body {
+    width: 100%;
+  }
+
+  .infoRow__plain,
+  .infoBlock__text {
+    font-size: 14px;
+    line-height: 2.1;
+  }
+
+  .infoBlock__title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .infoBlock__note {
+    font-size: 11px;
+    line-height: 1.8;
+  }
+
+  .infoBlock + .infoBlock {
+    margin-top: 26px;
+  }
+
+  .floorplan {
+    margin-top: 28px;
+
+    & + .infoRow {
+      margin-top: 56px;
+    }
+  }
+
+  .reserveButton {
+    width: 100%;
+    max-width: 400px;
+    height: 64px;
+    margin-top: 64px;
+    border-radius: 40px;
+    font-size: 16px;
+  }
+
+  /* --- watoto kyoto --- */
+  .kyoto {
+    height: auto;
+    padding: 24px 0 40px;
+  }
+
+  .kyoto__link {
+    position: relative;
+    inset: auto;
+  }
+
+  .kyoto__image {
+    position: static;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1284 / 856;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+
+  .kyoto__heading {
+    top: 36%;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.5em;
+  }
+
+  .kyoto__button {
+    top: 52%;
+    left: 50%;
+    width: 220px;
+    height: 42px;
+    margin-left: -110px;
+    gap: 10px;
+    border-radius: 21px;
+  }
+
+  .kyoto__buttonLabel {
+    font-size: 13px;
+  }
+
+  .kyoto__arrow {
+    width: 50px;
+    height: 8px;
+  }
+
+  /* --- footer --- */
+  .footer {
+    display: flex;
+    height: auto;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 64px 24px 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footerLogo,
+  .footerMenu,
+  .footerKyoto,
+  .footerRule,
+  .footerLegal,
+  .footerCopyright {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    margin-left: 0;
+  }
+
+  .footerLogo__main {
+    font-size: 34px;
+  }
+
+  .footerLogo__sub {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+
+  .footerMenu {
+    margin-top: 40px;
+    gap: 14px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .footerKyoto {
+    margin-top: 40px;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .footerRule {
+    width: 12px;
+    margin-top: 20px;
+    flex: none;
+  }
+
+  .footerLegal {
+    margin-top: 20px;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .footerCopyright {
+    margin-top: 56px;
+    font-size: 9px;
+    line-height: 1.4;
   }
 }

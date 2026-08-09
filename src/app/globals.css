@@ -27,6 +27,14 @@
   --color-stay-background: var(--color-cream);
   --color-stay-placeholder: #a6a6a6;
 
+  /* Lita top page (2026 記事掲載用の暫定デザイン) */
+  --color-lita-background: #fdfbf5;
+  --color-lita-text: #620909;
+  --font-family-en: "cochin-lt-pro", "Times New Roman", serif;
+  --font-family-jp-heading: "momochidori-wide", "Hiragino Mincho ProN", serif;
+  --font-family-jp-body: "dnp-shuei-gothic-gin-std", "Hiragino Sans",
+    "Noto Sans JP", sans-serif;
+
   /* Fonts */
   --font-family-title: ltc-nicholas-cochin-pro, shippori-mincho-b1, sans-serif;
   --font-family-gothic: mr-eaves-sans, shippori-mincho-b1, sans-serif;

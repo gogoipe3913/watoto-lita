@@ -219,7 +219,7 @@ $jp-body: var(--font-family-jp-body);
 
 .heroPlace {
   position: fixed;
-  left: 40;
+  left: 40px;
   bottom: 48px;
   width: u(180);
   height: u(62);
@@ -273,8 +273,9 @@ $jp-body: var(--font-family-jp-body);
  */
 .heroMenu {
   position: fixed;
-  right: calc(50% - 680 * var(--u));
+  // right: calc(50% - 680 * var(--u));
   // top: min(calc(775.5 * var(--u)), calc(100vh - 224.5 * var(--u)));
+  right: 40px;
   bottom: 48px;
   z-index: var(--z-index-elevation-1);
   display: flex;

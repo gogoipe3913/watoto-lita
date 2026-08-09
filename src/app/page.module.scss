@@ -57,7 +57,7 @@ $jp-body: var(--font-family-jp-body);
 }
 
 .aboutHeading {
-  font-size: u(36);
+  font-size: u(32);
   line-height: u(112);
   letter-spacing: u(22.32);
 }
@@ -133,7 +133,7 @@ $jp-body: var(--font-family-jp-body);
 
 .logo__sub {
   margin-top: u(0);
-  font-size: u(12);
+  font-size: u(11);
   line-height: 1;
   letter-spacing: u(0.28);
 }
@@ -391,9 +391,9 @@ $jp-body: var(--font-family-jp-body);
   width: u(452);
   flex: none;
   font-family: $en;
-  font-size: u(28);
+  font-size: u(22);
   line-height: u(34);
-  letter-spacing: u(0.56);
+  letter-spacing: u(0.4);
 }
 
 .infoRow__body {
@@ -416,7 +416,7 @@ $jp-body: var(--font-family-jp-body);
 }
 
 .infoBlock__title {
-  margin-bottom: u(16);
+  margin-bottom: u(12);
   font-family: $jp-body;
   font-size: u(16);
   line-height: u(18);
@@ -425,7 +425,7 @@ $jp-body: var(--font-family-jp-body);
 
 .infoBlock__text {
   font-family: $jp-body;
-  font-size: u(13);
+  font-size: u(12);
   line-height: u(34);
   letter-spacing: u(0.3);
   white-space: pre-line;
@@ -685,7 +685,7 @@ $jp-body: var(--font-family-jp-body);
 
   .aboutHeading {
     margin-bottom: 40px;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 2.6;
     letter-spacing: 0.5em;
   }
@@ -893,7 +893,7 @@ $jp-body: var(--font-family-jp-body);
 
   .infoRow__plain,
   .infoBlock__text {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 2.1;
   }
 

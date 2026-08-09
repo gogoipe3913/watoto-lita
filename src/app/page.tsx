@@ -45,15 +45,15 @@ const Photo = ({ src, alt, x, y, w, h }: PhotoProps) => (
 );
 
 const HERO_MENU = [
-  { label: "philosophy", href: "#about" },
-  { label: "experience", href: "#experience" },
+  { label: "Philosophy", href: "#philosophy" },
+  { label: "Experience", href: "#experience" },
   { label: "Information", href: "#information" },
   { label: "Reservation", href: "/reservation" },
   { label: "Access", href: "#access" },
 ];
 
 const FOOTER_MENU = [
-  { label: "Concept", href: "#concept" },
+  { label: "Philosophy", href: "#philosophy" },
   { label: "Experience", href: "#experience" },
   { label: "Information", href: "#information" },
   { label: "Reservation", href: "/reservation" },
@@ -480,7 +480,7 @@ is a private stay to experience nature, as it is.`}
                 />
                 <InfoBlock
                   title="BBQ、ピザ窯"
-                  body={`敷地内でのBBQとピザ窯の使用が可能です
+                  body={`オプションとして、敷地内でのBBQとピザ窯の使用が可能です
 食材の持ち込み、調理も自由に行えます`}
                 />
               </InfoRow>

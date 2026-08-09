@@ -169,6 +169,7 @@ $jp-body: var(--font-family-jp-body);
   width: u(52);
   height: u(26);
   background: url("/home/svg/watoto-mark.svg") no-repeat center / contain;
+  z-index: var(--z-index-elevation-1);
 }
 
 /* コピーは「白い帯 + その上に載る文字」。帯が .heroCopy 本体、文字が span。 */
@@ -806,7 +807,8 @@ $jp-body: var(--font-family-jp-body);
   .heroPlace {
     left: u(15.5);
     // 画面下端から u(76.2) の位置に留める
-    top: calc(590.8 * var(--u) + var(--extra));
+    // top: calc(590.8 * var(--u) + var(--extra));
+    bottom: 20px;
     width: u(130);
     height: u(56);
     font-size: u(13);

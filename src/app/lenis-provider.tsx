@@ -1,10 +1,15 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 
 // 固定ヘッダーの高さをここで一元管理
-const HEADER_HEIGHT = 80; // px: プロジェクトに合わせて調整
+export const HEADER_HEIGHT = 80; // px: プロジェクトに合わせて調整
+
+/** 生成済みの Lenis インスタンス。モーダル等でスクロールを止めるのに使う */
+const LenisContext = createContext<Lenis | null>(null);
+
+export const useLenis = () => useContext(LenisContext);
 
 export default function LenisProvider({
   children,
@@ -12,6 +17,7 @@ export default function LenisProvider({
   children: React.ReactNode;
 }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const [lenis, setLenis] = useState<Lenis | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -26,6 +32,7 @@ export default function LenisProvider({
       // syncTouch: true,
     });
     lenisRef.current = lenis;
+    setLenis(lenis);
 
     // OS 設定「動きを減らす」に追従
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -52,6 +59,7 @@ export default function LenisProvider({
       media.removeEventListener?.("change", applyMotionPref);
       lenis.destroy();
       lenisRef.current = null;
+      setLenis(null);
     };
   }, [pathname]);
 
@@ -67,5 +75,5 @@ export default function LenisProvider({
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
-  return <>{children}</>;
+  return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;
 }

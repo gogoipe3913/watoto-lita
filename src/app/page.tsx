@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import HeroMenu from "@/components/HeroMenu";
+import GlobalMenu from "@/components/GlobalMenu";
 import styles from "./page.module.scss";
 
 /**
@@ -114,7 +115,7 @@ export default function Home() {
             />
           </div>
 
-          <span className={styles.heroMark} aria-hidden />
+          <GlobalMenu items={HERO_MENU} />
 
           <p
             className={`${styles.heroCopy} ${styles["heroCopy--1"]}`}

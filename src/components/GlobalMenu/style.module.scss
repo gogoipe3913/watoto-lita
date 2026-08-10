@@ -1,0 +1,325 @@
+@use "../../styles/mixin" as m;
+
+/**
+ * グローバルメニュー（Figma: node 2803-252 / カンバス 1440 x 960）
+ * トップページと同じく「デザイン座標 × --u」でスケールさせる。
+ * 1150px 以下はスケールをやめて実寸で組む（中間幅で文字が伸び縮みしすぎるため）。
+ */
+
+$en: var(--font-family-en);
+$jp: var(--font-family-text-jp);
+
+@function u($n) {
+  @return calc(#{$n} * var(--u));
+}
+
+/* ------------------------------------------------------- トグル（右上のマーク） */
+
+.toggle {
+  --u: calc(min(100vw, 1920px) / 1440);
+
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  width: u(52);
+  height: u(26);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: var(--z-index-elevation-5);
+  transition: opacity 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  @include m.respondToLlg {
+    // ヒーローと同じ 375 カンバス基準に切り替える
+    --u: calc(min(100vw, 768px) / 375);
+
+    top: u(20);
+    right: u(16);
+    width: u(44);
+    height: u(23);
+  }
+}
+
+.toggle__mark {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("/home/svg/watoto-mark.svg") no-repeat center / contain;
+}
+
+/* --------------------------------------------------------------- パネル本体 */
+
+.GlobalMenu {
+  --u: calc(min(100vw, 1920px) / 1440);
+  // 中身フェードのステップ間隔
+  --fade-step: 60ms;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-elevation-4);
+  pointer-events: none;
+}
+
+/* パネルの外側をクリックしたら閉じる */
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  &.isIn {
+    pointer-events: auto;
+  }
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(u(584), 86vw);
+  height: 100%;
+  // 上下の余白はデザイン（960px 基準）の値を上限に、背の低い画面では vh で詰める
+  padding: min(u(194), 19vh) u(40) min(u(181), 15vh) u(60);
+  border-radius: 0 0 0 u(60);
+  background-color: rgba(229, 231, 234, 0.6);
+  color: var(--color-dark);
+  font-family: $en;
+  font-weight: 400;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+
+  transform: translate3d(100%, 0, 0);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+
+  &.isIn {
+    transform: translate3d(0, 0, 0);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @include m.respondToLlg {
+    width: min(420px, 86vw);
+    padding: min(96px, 14vh) 24px min(64px, 10vh) 32px;
+    border-radius: 0 0 0 32px;
+  }
+}
+
+/* 対応ブラウザではブラー、非対応なら不透明度を上げて可読性を確保 */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel {
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel {
+    background-color: rgba(238, 240, 242, 0.94);
+  }
+}
+
+/* ------------------------------------------------------------- 中身フェード */
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  min-height: 0;
+
+  // 画面が低いときに 1px の罫線などが潰れないようにする
+  > * {
+    flex-shrink: 0;
+  }
+
+  [data-fade] {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    // 閉じるときは遅延なしでさっと消す
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  &.isIn [data-fade] {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i, 0) * var(--fade-step));
+  }
+}
+
+.link {
+  transition: opacity 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* -------------------------------------------------------------- Taste / Stay */
+
+.brands {
+  display: flex;
+  align-items: center;
+  gap: u(22);
+  font-size: u(16);
+  line-height: u(16);
+  letter-spacing: u(0.32);
+
+  @include m.respondToLlg {
+    gap: 18px;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: 0.02em;
+  }
+}
+
+.brands__divider {
+  width: 1px;
+  height: u(12);
+  background-color: currentColor;
+
+  @include m.respondToLlg {
+    height: 12px;
+  }
+}
+
+.brand {
+  position: relative;
+  transition: opacity 0.3s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+/** 現在地（このサイト = Stay）はアンダーライン */
+.brand--current {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: u(-8);
+    height: 1px;
+    background-color: currentColor;
+
+    @include m.respondToLlg {
+      bottom: -8px;
+    }
+  }
+}
+
+/* -------------------------------------------------------------------- リンク */
+
+.nav,
+.subNav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: u(16);
+  font-size: u(16);
+  line-height: u(16);
+  letter-spacing: u(0.32);
+
+  @include m.respondToLlg {
+    gap: 18px;
+    font-size: 15px;
+    line-height: 15px;
+    letter-spacing: 0.02em;
+  }
+}
+
+.nav {
+  margin-top: u(60);
+
+  @include m.respondToLlg {
+    margin-top: 40px;
+  }
+}
+
+.rule {
+  width: u(16);
+  height: 1px;
+  margin: u(28) 0;
+  background-color: currentColor;
+
+  @include m.respondToLlg {
+    width: 16px;
+    margin: 24px 0;
+  }
+}
+
+/* -------------------------------------------------------------------- 住所等 */
+
+.address {
+  font-family: $jp;
+  font-size: u(13);
+  line-height: u(22);
+  letter-spacing: u(0.26);
+
+  @include m.respondToLlg {
+    font-size: 13px;
+    line-height: 22px;
+  }
+}
+
+.address__en {
+  margin-top: u(12);
+  color: #6c6c6c;
+  font-family: $en;
+  font-size: u(12);
+  line-height: u(20);
+  letter-spacing: u(0.24);
+
+  @include m.respondToLlg {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
+.copyright {
+  // 下端に寄せつつ、住所との最低間隔（デザインは 98px）を確保する
+  margin-top: auto;
+  padding-top: min(u(98), 7vh);
+  font-size: u(9);
+  line-height: u(11);
+  letter-spacing: u(0.18);
+
+  @include m.respondToLlg {
+    padding-top: min(48px, 6vh);
+    font-size: 10px;
+    line-height: 12px;
+  }
+}
+
+/* ------------------------------------------------- 動きを減らす設定への配慮 */
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
+
+  .contents [data-fade] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0ms;
+  }
+}

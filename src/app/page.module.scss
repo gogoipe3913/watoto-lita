@@ -108,6 +108,18 @@ $jp-body: var(--font-family-jp-body);
 /* ------------------------------------------------------------------ HERO */
 
 .hero {
+  // ヒーローの画像とコピーだけをまとめて拡大／縮小する倍率。
+  // 1 = デザイン原寸。MacBook 14 インチ程度の画面でマスクが画面いっぱいに見えるので少し縮める。
+  --hero-scale: 0.9;
+  // ヒーロー専用のスケール単位（--u に --hero-scale を掛けたもの）
+  --hu: calc(var(--u) * var(--hero-scale));
+
+  // 拡縮の基準点 = マスク可視領域の中心。倍率を変えてもこの点は動かない。
+  // X: .heroImage の左 -11 + マスク位置 166 + マスク幅の半分 553.555 = 708.555（デザイン座標）
+  // Y: 画面の縦中央
+  --hero-cx: calc(708.555 * var(--u));
+  --hero-cy: 50vh;
+
   position: relative;
   height: u(1400);
 }
@@ -140,18 +152,19 @@ $jp-body: var(--font-family-jp-body);
 
 .heroImage {
   position: absolute;
-  left: u(-11);
-  top: u(-27);
-  width: u(1441);
-  height: u(961);
+  // 基準点から見た要素の左上。X: -11 - 708.555 / Y: -27 - 474.5
+  left: calc(var(--hero-cx) - 719.555 * var(--hu));
+  top: calc(var(--hero-cy) - 501.5 * var(--hu));
+  width: calc(1441 * var(--hu));
+  height: calc(961 * var(--hu));
   -webkit-mask-image: url("/home/svg/hero-mask.svg");
   mask-image: url("/home/svg/hero-mask.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: u(1107.11) u(727);
-  mask-size: u(1107.11) u(727);
-  -webkit-mask-position: u(166) u(138);
-  mask-position: u(166) u(138);
+  -webkit-mask-size: calc(1107.11 * var(--hu)) calc(727 * var(--hu));
+  mask-size: calc(1107.11 * var(--hu)) calc(727 * var(--hu));
+  -webkit-mask-position: calc(166 * var(--hu)) calc(138 * var(--hu));
+  mask-position: calc(166 * var(--hu)) calc(138 * var(--hu));
 
   img {
     width: 100%;
@@ -175,21 +188,22 @@ $jp-body: var(--font-family-jp-body);
 /* コピーは「白い帯 + その上に載る文字」。帯が .heroCopy 本体、文字が span。 */
 .heroCopy {
   position: absolute;
-  left: u(var(--x));
-  top: u(var(--y));
-  width: u(var(--w));
-  height: u(12);
+  // 画像と同じ基準点・同じ倍率で配置するので、マスクとの相対位置は倍率を変えても保たれる
+  left: calc(var(--hero-cx) + (var(--x) - 708.555) * var(--hu));
+  top: calc(var(--hero-cy) + (var(--y) - 474.5) * var(--hu));
+  width: calc(var(--w) * var(--hu));
+  height: calc(12 * var(--hu));
   background-color: #fff;
 
   span {
     position: absolute;
-    left: u(var(--tx));
-    top: u(var(--ty));
+    left: calc(var(--tx) * var(--hu));
+    top: calc(var(--ty) * var(--hu));
     display: block;
     font-family: $jp-head;
-    font-size: u(36);
+    font-size: calc(36 * var(--hu));
     line-height: 1;
-    letter-spacing: u(22.32);
+    letter-spacing: calc(22.32 * var(--hu));
     white-space: nowrap;
   }
 }
@@ -716,15 +730,28 @@ $jp-body: var(--font-family-jp-body);
   // PC と同じ「デザイン座標 × --u」方式のまま、基準を 375 カンバスに差し替える
   .hero {
     --u: calc(min(100vw, 768px) / 375);
-    // デバイスの高さに合わせて縦をフィットさせる。
-    // 375x667 のデザイン比より縦長な端末で余る分が --extra。
-    // 上（ロゴ〜画像）と下（画像〜STAY ブロック）に半分ずつ配分する。
-    --extra: max(0px, calc(100dvh - 667 * var(--u)));
+    // SP は 375 カンバスにフィットさせる前提なので原寸のまま（PC 用の縮小は効かせない）
+    --hero-scale: 1;
+    // 「画面の中央」を決める基準の高さ。
+    // モバイルはアドレスバー / ツールバーの表示状態で可視高さが変わるので、
+    // バー表示時（svh）と非表示時（lvh）の平均を基準にして、
+    // どちらの状態でもズレが最小になる位置に置く。
+    // dvh と違いスクロールで値が変わらないため、バーの出し入れで画像が跳ねない。
+    --screen-h: 100dvh; // svh/lvh 未対応ブラウザ用のフォールバック
+    // マスク画像（SP はマスクが要素全体）の中心を画面の縦中央に合わせるオフセット。
+    // 画像の中心はヒーロー上端から u(113 + 433 / 2) = u(329.5)。
+    --hero-shift: calc(var(--screen-h) / 2 - 329.5 * var(--u));
 
     position: relative;
     height: max(100dvh, calc(667 * var(--u)));
     max-width: 768px;
     margin: 0 auto;
+  }
+
+  @supports (height: 1svh) and (height: 1lvh) {
+    .hero {
+      --screen-h: calc((100svh + 100lvh) / 2);
+    }
   }
 
   .logo {
@@ -746,7 +773,7 @@ $jp-body: var(--font-family-jp-body);
 
   .heroImage {
     left: u(26);
-    top: calc(113 * var(--u) + var(--extra) / 2);
+    top: calc(113 * var(--u) + var(--hero-shift));
     width: u(326.5);
     height: u(433);
     -webkit-mask-image: url("/home/svg/hero-mask-sp.svg");
@@ -770,8 +797,8 @@ $jp-body: var(--font-family-jp-body);
   }
 
   .heroCopy {
-    // コピーは画像の上に載るので、画像と同じだけ下げる
-    top: calc(var(--y) * var(--u) + var(--extra) / 2);
+    // コピーは画像の上に載るので、画像と同じだけずらす
+    top: calc(var(--y) * var(--u) + var(--hero-shift));
     height: u(7);
 
     span {
@@ -935,6 +962,8 @@ $jp-body: var(--font-family-jp-body);
   /* --- watoto kyoto --- */
   .kyoto {
     height: auto;
+    width: 90%;
+    margin: 0 auto;
     padding: 24px 0 40px;
   }
 
@@ -956,7 +985,7 @@ $jp-body: var(--font-family-jp-body);
 
   .kyoto__heading {
     top: 36%;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1;
     letter-spacing: 0.5em;
   }
@@ -965,7 +994,7 @@ $jp-body: var(--font-family-jp-body);
     top: 52%;
     left: 50%;
     width: 220px;
-    height: 42px;
+    height: 32px;
     margin-left: -110px;
     gap: 10px;
     border-radius: 21px;
@@ -986,7 +1015,7 @@ $jp-body: var(--font-family-jp-body);
     height: auto;
     max-width: 768px;
     margin: 0 auto;
-    padding: 64px 24px 40px;
+    padding: 100px 24px 100px;
     flex-direction: column;
     align-items: center;
   }
@@ -1040,8 +1069,8 @@ $jp-body: var(--font-family-jp-body);
   }
 
   .footerCopyright {
-    margin-top: 56px;
+    position: absolute;
+    bottom: 12px;
     font-size: 9px;
-    line-height: 1.4;
   }
 }

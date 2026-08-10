@@ -173,17 +173,7 @@ $jp-body: var(--font-family-jp-body);
   }
 }
 
-.heroMark {
-  position: fixed;
-  // left: u(1318);
-  // top: u(39.5);
-  top: 40px;
-  right: 40px;
-  width: u(52);
-  height: u(26);
-  background: url("/home/svg/watoto-mark.svg") no-repeat center / contain;
-  z-index: var(--z-index-elevation-1);
-}
+/* 右上の watoto マークは GlobalMenu のトグルボタンに移動（components/GlobalMenu） */
 
 /* コピーは「白い帯 + その上に載る文字」。帯が .heroCopy 本体、文字が span。 */
 .heroCopy {
@@ -786,14 +776,6 @@ $jp-body: var(--font-family-jp-body);
     img {
       object-position: 48% center;
     }
-  }
-
-  .heroMark {
-    left: auto;
-    right: u(16);
-    top: u(20);
-    width: u(44);
-    height: u(23);
   }
 
   .heroCopy {

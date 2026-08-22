@@ -436,8 +436,8 @@ is a private stay to experience nature, as it is.`}
               <InfoRow label="Pricing">
                 <InfoBlock
                   title="基本料金 (シーズンにより変動あり)"
-                  body={`平日（月〜木）　27,000円〜（2名まで）
-金・土・祝前日　32,000円〜（2名まで）`}
+                  body={`平日(月〜木)・日　27,000円〜（2名まで）
+金・土・祝前日　32,000円〜(2名まで)`}
                 />
                 <InfoBlock
                   title="追加料金 (3人目以降)"
